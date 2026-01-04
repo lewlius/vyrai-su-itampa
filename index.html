@@ -9,14 +9,10 @@
   <style>
     :root{
       --bg:#0b1220;
-      --bg2:#0f1b33;
-      --card:rgba(2,6,23,.45);
       --muted:#a8b0c2;
       --text:#eef2ff;
       --line:rgba(255,255,255,.10);
       --accent:#facc15;
-      --accent2:#f59e0b;
-      --good:#22c55e;
       --shadow: 0 18px 60px rgba(0,0,0,.35);
       --radius: 16px;
     }
@@ -35,11 +31,11 @@
       padding:8px 14px;border:1px solid var(--line);
       border-radius:999px;background:rgba(2,6,23,.35);
       box-shadow: 0 10px 30px rgba(0,0,0,.25);
-      font-weight:900; letter-spacing:.4px;
+      font-weight:950; letter-spacing:.4px;
     }
     .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
     h1{margin:18px 0 8px;font-size:48px;line-height:1.05}
-    .subtitle{margin:0 auto;max-width:840px;color:var(--muted);font-size:18px;line-height:1.55}
+    .subtitle{margin:0 auto;max-width:860px;color:var(--muted);font-size:18px;line-height:1.55}
     .cta{margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
     .btn{
       display:inline-flex;align-items:center;justify-content:center;
@@ -103,7 +99,6 @@
     ul{margin:10px 0 0 18px;color:var(--muted)}
     .footer{margin-top:46px;padding:26px 0;border-top:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:13px;text-align:center}
     .inline-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px}
-    .mini strong{color:var(--text)}
     .badge{
       display:inline-flex;align-items:center;gap:8px;
       font-size:12px;font-weight:900;
@@ -113,6 +108,19 @@
       color:#ffe89a;
       width:max-content;
       margin-top:6px;
+    }
+    /* debug – pasirodo tik jei JS randa problemą */
+    #debugBox{
+      display:none;
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(239,68,68,.35);
+      background: rgba(239,68,68,.10);
+      color:#fecaca;
+      font-size:12px;
+      line-height:1.45;
+      white-space:pre-wrap;
     }
   </style>
 </head>
@@ -234,6 +242,8 @@
               <div class="note">
                 Pastaba: kaina preliminari. Galutinė sąmata – po plano/objekto peržiūros.
               </div>
+
+              <div id="debugBox"></div>
             </div>
           </div>
         </form>
@@ -264,12 +274,11 @@
 
         <div class="mini" style="margin-top:14px">
           <h3>Greitas kontaktas</h3>
-          <div class="muted"><strong>📞</strong> +3706XXXXXXX • <strong>📍</strong> Vilnius +30 km</div>
+          <div class="muted"><b style="color:var(--text)">📞</b> +3706XXXXXXX • <b style="color:var(--text)">📍</b> Vilnius +30 km</div>
           <div class="inline-links">
             <a class="btn primary" style="min-width:160px; padding:12px 14px" href="tel:+3706XXXXXXX">Skambinti</a>
             <a class="btn ghost" style="min-width:160px; padding:12px 14px" target="_blank" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
           </div>
-          <div class="note">Pakeisk numerį `+3706XXXXXXX` į savo (viršuje ir čia).</div>
         </div>
       </div>
     </div>
@@ -278,9 +287,9 @@
       <div class="mini">
         <h3>Kodėl mes?</h3>
         <ul>
-          <li><strong>Kokybė</strong>: tvarkinga instaliacija, saugūs sprendimai</li>
-          <li><strong>Komunikacija</strong>: aiškiai paaiškinam ką darom ir kodėl</li>
-          <li><strong>Tvarka</strong>: švari darbo vieta, mažiau streso klientui</li>
+          <li>Tvarkinga instaliacija ir saugūs sprendimai</li>
+          <li>Aiški komunikacija: ką darom ir kodėl</li>
+          <li>Tvarka objekte: mažiau streso klientui</li>
         </ul>
       </div>
 
@@ -301,7 +310,6 @@
           <li>„Atvyko greitai, darbas tvarkingas.“</li>
           <li>„Davė patarimų, rekomenduoju.“</li>
         </ul>
-        <div class="note">Vėliau sudėsim 3–5 realius iš paslaugos.lt.</div>
       </div>
     </div>
 
@@ -310,111 +318,7 @@
     </div>
   </div>
 
-  <script>
-    // =========================
-    // KAINODARA (viena suma + medžiagos on/off)
-    // =========================
-    const PRICING = {
-      baseEurPerM2: 22, // bazė €/m²
-
-      objectCoef: { new: 1.00, reno: 1.15 },
-      wallCoef:   { gipsas: 1.00, blokeliai: 1.05, betonas: 1.12 },
-
-      perRoom: 90,
-      perBath: 150,
-      kitchenHeavy: 220,
-      lanPoint: 35,
-
-      boardWork: { paprastas: 280, vidutinis: 420, pro: 700 },
-      bundleWork:{ none: 0, safe: 220, pros: 340 },
-
-      // vienos sumos koeficientas (vidurkis)
-      singleCoef: 1.02,
-
-      vat: 0.21,
-
-      materialsPerM2: { basic: 10, standard: 15, premium: 23 },
-      boardMaterials: { basic: 220, standard: 320, premium: 500 }
-    };
-
-    const byId = (id) => document.getElementById(id);
-
-    const euro = (n) => {
-      const val = Math.max(0, Math.round(Number(n) || 0));
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " €";
-    };
-
-    function calc(){
-      const area = Number(byId("area").value || 0);
-      const rooms = Number(byId("rooms").value || 0);
-      const baths = Number(byId("baths").value || 0);
-      const objectType = byId("objectType").value;
-      const walls = byId("walls").value;
-      const board = byId("board").value;
-      const lan = Number(byId("lan").value || 0);
-      const bundle = byId("bundle").value;
-
-      const kitchen = byId("kitchen").checked;
-      const includeMaterials = byId("includeMaterials").checked;
-      const materialsLevel = byId("materialsLevel").value;
-      const showVat = byId("showVat").checked;
-
-      // WORK
-      const base =
-        area * PRICING.baseEurPerM2 *
-        (PRICING.objectCoef[objectType] ?? 1) *
-        (PRICING.wallCoef[walls] ?? 1);
-
-      const complexity =
-        rooms * PRICING.perRoom +
-        baths * PRICING.perBath +
-        (kitchen ? PRICING.kitchenHeavy : 0) +
-        lan * PRICING.lanPoint;
-
-      const boardWork = PRICING.boardWork[board] ?? 0;
-      const bundleWork = PRICING.bundleWork[bundle] ?? 0;
-
-      const workSubtotal = (base + complexity + boardWork + bundleWork) * PRICING.singleCoef;
-
-      // MATERIALS
-      let materials = 0;
-      if(includeMaterials){
-        materials =
-          area * (PRICING.materialsPerM2[materialsLevel] ?? 0) +
-          (PRICING.boardMaterials[materialsLevel] ?? 0);
-      }
-
-      const vatCoef = showVat ? (1 + PRICING.vat) : 1;
-      const workFinal = workSubtotal * vatCoef;
-      const matFinal = materials * vatCoef;
-      const total = (workSubtotal + materials) * vatCoef;
-
-      byId("workPrice").textContent = euro(workFinal);
-      byId("materialsPrice").textContent = includeMaterials ? euro(matFinal) : "0 €";
-      byId("totalPrice").textContent = euro(total);
-
-      byId("vatHint").textContent = showVat ? "Rodoma su PVM" : "Rodoma be PVM";
-      byId("materialsLevelWrap").style.display = includeMaterials ? "block" : "none";
-
-      const inc = includeMaterials
-        ? "Įskaičiuotos darbų ir medžiagų sąnaudos pagal pasirinktą lygį (kabeliai, dėžutės, tvirtinimas, bazinis skydas/automatika)."
-        : "Įskaičiuoti tik darbai. Medžiagos (kabeliai, dėžutės, automatikos komplektas) skaičiuojamos atskirai – įjunk „Įtraukti medžiagas“.";
-
-      byId("includedText").textContent =
-        inc + " Neįeina: šviestuvai, rozetės/jungikliai (dizainas), LED profiliai/valdikliai, specifinė smart įranga.";
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      byId("year").textContent = new Date().getFullYear();
-
-      // 100% patikimas būdas: klausom pačios formos
-      const form = byId("calcForm");
-      form.addEventListener("input", calc, true);
-      form.addEventListener("change", calc, true);
-
-      // ir pirmas paskaičiavimas
-      calc();
-    });
-  </script>
+  <!-- JS atskirai -->
+  <script src="app.js?v=1"></script>
 </body>
 </html>
