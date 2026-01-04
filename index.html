@@ -362,16 +362,35 @@
         inc + " Neįeina: šviestuvai, rozetės/jungikliai (dizainas), LED profiliai/valdikliai, specifinė smart įranga.";
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      byId("year").textContent = new Date().getFullYear();
-      ["area","rooms","baths","objectType","walls","board","lan","bundle","kitchen","includeMaterials","materialsLevel","showVat"]
-        .forEach(id => {
-          const el = byId(id);
-          el.addEventListener("input", calc);
-          el.addEventListener("change", calc);
-          el.addEventListener("click", calc);
-        });
-      calc();
+window.addEventListener("DOMContentLoaded", () => {
+  byId("year").textContent = new Date().getFullYear();
+
+  const watched = new Set([
+    "area","rooms","baths","objectType","walls","board","lan","bundle",
+    "kitchen","includeMaterials","materialsLevel","showVat"
+  ]);
+
+  // Globalūs listeneriai – suveiks visais atvejais
+  document.addEventListener("input", (e) => {
+    if (e.target && watched.has(e.target.id)) calc();
+  });
+
+  document.addEventListener("change", (e) => {
+    if (e.target && watched.has(e.target.id)) calc();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target && watched.has(e.target.id)) calc();
+  });
+
+  // Papildomai: kai išeini iš įvesties lauko
+  document.addEventListener("blur", (e) => {
+    if (e.target && watched.has(e.target.id)) calc();
+  }, true);
+
+  calc();
+});
+
     });
   </script>
 </body>
