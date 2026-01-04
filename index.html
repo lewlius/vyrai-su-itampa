@@ -418,42 +418,26 @@
     </div>
   </div>
 
-  <script>
-    // =========================
-    // KAINODARA (lengva redaguoti)
-    // =========================
-    const PRICING = {
-      baseEurPerM2: 22,            // bazė €/m² (jūsų kryptis: konkurencinga, ne pigiausia)
-      objectCoef: { new: 1.00, reno: 1.15 },
-      wallCoef:   { gipsas: 1.00, blokeliai: 1.05, betonas: 1.12 },
+ <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const area = document.getElementById("area");
+    const total = document.getElementById("totalPrice");
+    const work = document.getElementById("workPrice");
+    const mat = document.getElementById("materialsPrice");
 
-      // papildomai už "taškų" sudėtingumą
-      perRoom: 90,
-      perBath: 150,
-      kitchenHeavy: 220,
-      lanPoint: 35,
-
-      boardWork: { paprastas: 280, vidutinis: 420, pro: 700 },
-      bundleWork:{ none: 0, safe: 220, pros: 340 },
-
-      // vienos sumos "projekto variacijos" koeficientas (tarp NUO–IKI)
-      // čia naudojam saugų vidurkį
-      singleCoef: 1.02,
-
-      vat: 0.21,
-
-      // Medžiagos: €/m² + skydas/automatika (medžiagos)
-      materialsPerM2: {
-        basic:    10,
-        standard: 15,
-        premium:  23
-      },
-      boardMaterials: {
-        basic:    220,
-        standard: 320,
-        premium:  500
-      }
+    const calc = () => {
+      const a = Number(area.value || 0);
+      const w = a * 22;        // testas: darbai = 22€/m2
+      const m = a * 15 + 320;  // testas: medžiagos = 15€/m2 + 320
+      work.textContent = Math.round(w) + " €";
+      mat.textContent = Math.round(m) + " €";
+      total.textContent = Math.round(w + m) + " €";
     };
+
+    area.addEventListener("input", calc);
+    calc();
+  });
+</script>
 
     // =========================
     // Helpers
