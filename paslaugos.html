@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VYRAI SU ĮTAMPA – Greitas pasiūlymas</title>
   <meta name="description" content="Greitas pasiūlymas elektros darbams. Skaičiuoklė per 2 minutes." />
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
   <header class="hero">
@@ -16,7 +16,7 @@
         Įvesk 6–8 parametrus ir gauk preliminarią sumą. Jei tinka – vienu paspaudimu išsiųsi užklausą.
       </p>
       <div class="cta">
-        <a class="btn primary" href="./index.html#skaiciuokle">Skaičiuoti kainą</a>
+        <a class="btn primary" href="index.html#skaiciuokle">Skaičiuoti kainą</a>
         <a class="btn ghost" href="tel:+3706XXXXXXX">Skambinti</a>
       </div>
       <div class="trust">
@@ -47,8 +47,8 @@
   </main>
 
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    const y = document.getElementById("year");
+    if (y) y.textContent = String(new Date().getFullYear());
   </script>
 </body>
 </html>
-
