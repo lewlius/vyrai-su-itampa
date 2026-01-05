@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="lt">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>VYRAI SU ĮTAMPA – Elektros sprendimai</title>
-  <meta name="description" content="Elektros instaliacija, skydai ir apsauga Vilniuje. Preliminari kaina per 2 min." />
+  <meta name="description" content="Elektros sprendimai ir apsauga. Preliminari kaina per 1 minutę." />
   <meta name="theme-color" content="#0b1220" />
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=7">
 </head>
 
 <body>
@@ -15,166 +15,160 @@
       <div class="topbar">
         <div class="brand">
           <span class="dot"></span>
-          <span>VYRAI SU ĮTAMPA</span>
+          <span class="brand-text">VYRAI SU ĮTAMPA</span>
         </div>
 
         <div class="top-actions">
-          <a class="pillbtn" href="tel:+3706XXXXXXX">Skambinti</a>
-          <a class="pillbtn" target="_blank" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
+          <a class="chip" href="tel:+3706XXXXXXX">Skambinti</a>
+          <a class="chip" target="_blank" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
         </div>
       </div>
 
       <h1>Elektros sprendimai ir apsauga</h1>
-      <p class="subtitle">
-        Įvesk 3 parametrus ir iškart matysi preliminarią kainą.
-      </p>
+      <p class="subtitle">Įvesk <b>3 parametrus</b> ir iškart matysi preliminarią kainą.</p>
 
       <div class="trust">
         <span>⭐ <b>5.0</b> įvertinimas</span>
         <span>📍 <b>Vilnius</b> +30 km</span>
-        <span>🛡️ Dirbam tvarkingai</span>
+        <span>🧹 Dirbam tvarkingai</span>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="simple-grid">
-      <!-- Simple Calculator -->
+    <section class="grid" id="skaiciuokle">
+      <!-- CALC -->
       <div class="card">
-        <div class="card-head">
-          <div>
-            <h2>Skaičiuoklė</h2>
-            <div class="muted">Kaina perskaičiuojama automatiškai.</div>
-          </div>
-          <button class="icon-btn" type="button" data-open="helpModal" aria-label="Pagalba">?</button>
+        <div class="card-title">
+          <h2>Skaičiuoklė</h2>
+          <button class="help" id="helpBtn" type="button" aria-label="Pagalba">?</button>
         </div>
 
-        <form id="calcForm" class="simple-form">
+        <div class="muted">Kaina perskaičiuojama automatiškai.</div>
+
+        <form id="calcForm" class="calc" autocomplete="off">
           <div class="field">
-            <label>Plotas (m²)</label>
-            <input id="area" type="number" min="10" step="1" value="60" inputmode="numeric" />
+            <label for="area">Plotas (m²)</label>
+            <input id="area" type="number" inputmode="numeric" min="10" step="1" value="60" />
           </div>
 
           <div class="field">
-            <label>Kambariai</label>
-            <input id="rooms" type="number" min="1" step="1" value="3" inputmode="numeric" />
+            <label for="rooms">Kambariai</label>
+            <input id="rooms" type="number" inputmode="numeric" min="1" step="1" value="3" />
           </div>
 
           <div class="field">
-            <label>Vonios</label>
-            <input id="baths" type="number" min="0" step="1" value="1" inputmode="numeric" />
+            <label for="baths">Vonios</label>
+            <input id="baths" type="number" inputmode="numeric" min="0" step="1" value="1" />
           </div>
 
-          <div class="toggle-row">
-            <div>
-              <div class="toggle-title">Įtraukti medžiagas</div>
-              <div class="muted small">Jei nori matyti vieną bendrą sumą su medžiagomis.</div>
+          <div class="field wide">
+            <label>Įtraukti medžiagas</label>
+            <div class="row">
+              <label class="toggle">
+                <input id="includeMaterials" type="checkbox" checked />
+                <span class="track"><span class="thumb"></span></span>
+                <span class="toggle-text">Taip</span>
+              </label>
+
+              <label class="toggle secondary">
+                <input id="showVat" type="checkbox" />
+                <span class="track"><span class="thumb"></span></span>
+                <span class="toggle-text">Rodyti su PVM</span>
+              </label>
             </div>
 
-            <label class="switch">
-              <input id="includeMaterials" type="checkbox" checked />
-              <span class="slider" aria-hidden="true"></span>
-            </label>
+            <p class="note">
+              Pastaba: kaina preliminari. Galutinė sąmata patikslinama po plano/objekto apžiūros.
+            </p>
           </div>
 
-          <div class="tiny-note">
-            Pastaba: kaina preliminari. Galutinė sąmata patikslinama po plano/objekto apžiūros.
-          </div>
+          <div class="field wide">
+            <details class="details">
+              <summary>
+                <span class="summary-title">Pagerinti apsaugą (rekomenduojama)</span>
+                <span class="summary-sub">SAFE nuo įtampos šuolių</span>
+              </summary>
 
-          <div id="debugBox" class="debug"></div>
+              <div class="details-body">
+                <div class="row">
+                  <label class="toggle">
+                    <input id="addSafe" type="checkbox" />
+                    <span class="track"><span class="thumb"></span></span>
+                    <span class="toggle-text">Pridėti SAFE</span>
+                  </label>
+                  <div class="mini-muted">Apsaugo buitinę techniką ir elektroniką nuo įtampos šuolių.</div>
+                </div>
+              </div>
+            </details>
+
+            <div id="debugBox" class="debug" hidden></div>
+          </div>
         </form>
       </div>
 
-      <!-- Result -->
-      <aside class="card result-card">
+      <!-- RESULT -->
+      <aside class="card">
         <h2>Rezultatas</h2>
 
         <div class="result">
           <span class="pill">Preliminari kaina (viena suma)</span>
           <div class="price" id="totalPrice">— €</div>
+          <div class="muted" id="vatHint">Rodoma be PVM</div>
 
-          <div class="split">
-            <div class="split-box">
-              <div class="split-label">Darbai</div>
-              <div class="split-val" id="workPrice">— €</div>
+          <div class="breakdown">
+            <div class="bd">
+              <b>Darbai</b><br />
+              <span id="workPrice">— €</span>
             </div>
-            <div class="split-box">
-              <div class="split-label">Medžiagos</div>
-              <div class="split-val" id="materialsPrice">— €</div>
+            <div class="bd">
+              <b>Medžiagos</b><br />
+              <span id="materialsPrice">— €</span>
             </div>
           </div>
 
-          <div class="explain">
-            <div class="explain-title">Kas įskaičiuota</div>
+          <div class="included">
+            <b>Kas įskaičiuota</b>
             <div class="muted" id="includedText">—</div>
           </div>
 
-          <div class="cta-row">
-            <a class="btn primary" id="quoteBtn" href="#">Gauti pasiūlymą</a>
-            <a class="btn ghost" href="tel:+3706XXXXXXX">Skambinti</a>
+          <div class="cta">
+            <a class="btn primary" id="whatsBtn" target="_blank" href="#">Rašyti WhatsApp</a>
+            <a class="btn ghost" id="callBtn" href="tel:+3706XXXXXXX">Skambinti</a>
+          </div>
+
+          <div class="note">
+            Pakeisk numerį viršuje (tel:+3706XXXXXXX) ir WhatsApp nuorodą (wa.me/3706XXXXXXX).
           </div>
         </div>
       </aside>
     </section>
 
-    <section class="cards3">
-      <div class="mini">
-        <h3>Kodėl mes?</h3>
-        <ul>
-          <li><b>Kokybė</b> – tvarkingi sprendimai</li>
-          <li><b>Komunikacija</b> – aiškiai paaiškinam</li>
-          <li><b>Tvarka</b> – švari darbo vieta</li>
-        </ul>
+    <!-- MODAL -->
+    <div class="modal" id="helpModal" hidden>
+      <div class="modal-backdrop" id="helpClose"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <div class="modal-head">
+          <h3 id="helpTitle">Kaip skaičiuojame?</h3>
+          <button class="x" id="helpX" type="button" aria-label="Uždaryti">✕</button>
+        </div>
+        <div class="modal-body">
+          <p><b>Ši skaičiuoklė duoda preliminarią kainą</b> pagal tipinę naujos/renovacijos instaliaciją butui/namui.</p>
+          <ul>
+            <li>Į kainą įtraukiami baziniai instaliacijos darbai ir (pasirinkus) medžiagos.</li>
+            <li>Neįeina šviestuvai, rozetės/jungikliai (dizainas), LED profiliai/valdikliai, specifinė smart įranga.</li>
+            <li>SAFE – papildoma apsauga nuo įtampos šuolių (rekomenduojama daugumai būstų).</li>
+          </ul>
+          <p class="muted">Galutinė sąmata tikslinama po plano/objekto apžiūros.</p>
+        </div>
       </div>
-
-      <div class="mini">
-        <h3>Kaip skaičiuojam</h3>
-        <ul>
-          <li>Plotas + kambarių/vonių sudėtingumas</li>
-          <li>Vidutinė komplektacija (daugumai būstų)</li>
-          <li>Medžiagos – įjungus toggle</li>
-        </ul>
-      </div>
-
-      <div class="mini">
-        <h3>Ką daryti toliau</h3>
-        <ul>
-          <li>Spustelk <b>Gauti pasiūlymą</b></li>
-          <li>Įrašyk adresą + planą, jei turi</li>
-          <li>Patikslinsim sąmatą ir terminus</li>
-        </ul>
-      </div>
-    </section>
+    </div>
 
     <footer class="footer">
-      © <span id="year"></span> VYRAI SU ĮTAMPA – Elektros sprendimai • Kaina preliminari (patikslinama po apžiūros)
+      © <span id="year"></span> VYRAI SU ĮTAMPA • Kaina preliminari, patikslinama po plano/objekto apžiūros.
     </footer>
   </main>
 
-  <!-- HELP MODAL -->
-  <div class="modal" id="helpModal" aria-hidden="true">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3>Kaip suprasti šią kainą?</h3>
-        <button class="icon-btn" type="button" data-close aria-label="Uždaryti">✕</button>
-      </div>
-
-      <p class="muted">
-        Tai preliminari sąmata, skirta greitam orientyrui. Skaičiuojame pagal tipinį būsto instaliacijos kompleksumą.
-      </p>
-
-      <ul>
-        <li><b>Darbai</b>: instaliacija, sujungimai, bazinis sugrupavimas.</li>
-        <li><b>Medžiagos</b> (jei įjungta): kabeliai, dėžutės, tvirtinimas, smulkmenos.</li>
-        <li><b>Neįeina</b>: šviestuvai, rozetės/jungikliai (dizainas), LED profiliai/valdikliai, specifinė smart įranga.</li>
-      </ul>
-
-      <div class="modal-actions">
-        <button class="btn primary" type="button" data-close>Aišku</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>
