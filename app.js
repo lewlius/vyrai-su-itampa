@@ -1,10 +1,6 @@
-/* app.js — Vyrai su įtampa: skaičiuoklė
-   Stabilus event handling: klausom formos input/change + fallback click
-   Debug box: jei trūksta ID ar meta klaidą, parodo ekrane.
-*/
 (() => {
+  // ---- KAINODARA (keisi čia) ----
   const PRICING = {
-    // bazė €/m² (galėsi koreguoti)
     baseEurPerM2: 22,
 
     objectCoef: { new: 1.00, reno: 1.15 },
@@ -18,12 +14,9 @@
     boardWork: { paprastas: 280, vidutinis: 420, pro: 700 },
     bundleWork:{ none: 0, safe: 220, pros: 340 },
 
-    // vienos sumos koeficientas (vidurkis)
     singleCoef: 1.02,
-
     vat: 0.21,
 
-    // Medžiagos: €/m² + skydelio/automatikos dalis
     materialsPerM2: { basic: 10, standard: 15, premium: 23 },
     boardMaterials: { basic: 220, standard: 320, premium: 500 }
   };
@@ -41,7 +34,6 @@
     box.style.display = "block";
     box.textContent = msg;
   };
-
   const hideDebug = () => {
     const box = $("debugBox");
     if (!box) return;
@@ -49,92 +41,141 @@
     box.textContent = "";
   };
 
-  function requiredMissing(ids) {
-    return ids.filter((id) => !$(id));
+  function getState() {
+    return {
+      area: Number($("area")?.value || 0),
+      rooms: Number($("rooms")?.value || 0),
+      baths: Number($("baths")?.value || 0),
+      objectType: $("objectType")?.value || "new",
+      walls: $("walls")?.value || "gipsas",
+      board: $("board")?.value || "paprastas",
+      lan: Number($("lan")?.value || 0),
+      bundle: $("bundle")?.value || "none",
+      kitchen: !!$("kitchen")?.checked,
+      includeMaterials: !!$("includeMaterials")?.checked,
+      materialsLevel: $("materialsLevel")?.value || "standard",
+      showVat: !!$("showVat")?.checked
+    };
   }
 
   function calc() {
     try {
       const required = [
-        "calcForm",
-        "area","rooms","baths","objectType","walls","board","lan","bundle",
+        "calcForm","area","rooms","baths","objectType","walls","board","lan","bundle",
         "kitchen","includeMaterials","materialsLevel","showVat",
-        "totalPrice","workPrice","materialsPrice","vatHint","includedText","materialsLevelWrap"
+        "totalPrice","workPrice","materialsPrice","vatHint","includedText","materialsLevelWrap",
+        "quoteBtn","year"
       ];
-
-      const missing = requiredMissing(required);
+      const missing = required.filter(id => !$(id));
       if (missing.length) {
         showDebug("❌ Trūksta elementų su ID:\n- " + missing.join("\n- "));
         return;
       }
       hideDebug();
 
-      const area = Number($("area").value || 0);
-      const rooms = Number($("rooms").value || 0);
-      const baths = Number($("baths").value || 0);
-      const objectType = $("objectType").value; // new/reno
-      const walls = $("walls").value;           // gipsas/blokeliai/betonas
-      const board = $("board").value;           // paprastas/vidutinis/pro
-      const lan = Number($("lan").value || 0);
-      const bundle = $("bundle").value;         // none/safe/pros
-
-      const kitchen = $("kitchen").checked;
-      const includeMaterials = $("includeMaterials").checked;
-      const materialsLevel = $("materialsLevel").value; // basic/standard/premium
-      const showVat = $("showVat").checked;
+      const s = getState();
 
       // WORK
       const base =
-        area * PRICING.baseEurPerM2 *
-        (PRICING.objectCoef[objectType] ?? 1) *
-        (PRICING.wallCoef[walls] ?? 1);
+        s.area * PRICING.baseEurPerM2 *
+        (PRICING.objectCoef[s.objectType] ?? 1) *
+        (PRICING.wallCoef[s.walls] ?? 1);
 
       const complexity =
-        rooms * PRICING.perRoom +
-        baths * PRICING.perBath +
-        (kitchen ? PRICING.kitchenHeavy : 0) +
-        lan * PRICING.lanPoint;
+        s.rooms * PRICING.perRoom +
+        s.baths * PRICING.perBath +
+        (s.kitchen ? PRICING.kitchenHeavy : 0) +
+        s.lan * PRICING.lanPoint;
 
-      const boardWork = PRICING.boardWork[board] ?? 0;
-      const bundleWork = PRICING.bundleWork[bundle] ?? 0;
+      const boardWork = PRICING.boardWork[s.board] ?? 0;
+      const bundleWork = PRICING.bundleWork[s.bundle] ?? 0;
 
       const workSubtotal = (base + complexity + boardWork + bundleWork) * PRICING.singleCoef;
 
       // MATERIALS
       let materials = 0;
-      if (includeMaterials) {
+      if (s.includeMaterials) {
         materials =
-          area * (PRICING.materialsPerM2[materialsLevel] ?? 0) +
-          (PRICING.boardMaterials[materialsLevel] ?? 0);
+          s.area * (PRICING.materialsPerM2[s.materialsLevel] ?? 0) +
+          (PRICING.boardMaterials[s.materialsLevel] ?? 0);
       }
 
-      const vatCoef = showVat ? (1 + PRICING.vat) : 1;
+      const vatCoef = s.showVat ? (1 + PRICING.vat) : 1;
       const workFinal = workSubtotal * vatCoef;
       const matFinal = materials * vatCoef;
       const total = (workSubtotal + materials) * vatCoef;
 
       $("workPrice").textContent = euro(workFinal);
-      $("materialsPrice").textContent = includeMaterials ? euro(matFinal) : "0 €";
+      $("materialsPrice").textContent = s.includeMaterials ? euro(matFinal) : "0 €";
       $("totalPrice").textContent = euro(total);
+      $("vatHint").textContent = s.showVat ? "Rodoma su PVM" : "Rodoma be PVM";
+      $("materialsLevelWrap").style.display = s.includeMaterials ? "block" : "none";
 
-      $("vatHint").textContent = showVat ? "Rodoma su PVM" : "Rodoma be PVM";
-      $("materialsLevelWrap").style.display = includeMaterials ? "block" : "none";
-
-      const inc = includeMaterials
+      const inc = s.includeMaterials
         ? "Įskaičiuotos darbų ir medžiagų sąnaudos pagal pasirinktą lygį (kabeliai, dėžutės, tvirtinimas, bazinis skydas/automatika)."
-        : "Įskaičiuoti tik darbai. Medžiagos (kabeliai, dėžutės, automatikos komplektas) skaičiuojamos atskirai – įjunk „Įtraukti medžiagas“.";
+        : "Įskaičiuoti tik darbai. Medžiagos skaičiuojamos atskirai – įjunk „Įtraukti medžiagas“.";
 
       $("includedText").textContent =
         inc + " Neįeina: šviestuvai, rozetės/jungikliai (dizainas), LED profiliai/valdikliai, specifinė smart įranga.";
+
+      // “Gauti pasiūlymą” – mailto su užpildyta informacija
+      const subject = encodeURIComponent("Užklausa: elektros darbai (preliminari sąmata)");
+      const body = encodeURIComponent(
+        `Sveiki,\n\nNoriu gauti pasiūlymą.\n\n` +
+        `Plotas: ${s.area} m²\nKambariai: ${s.rooms}\nVonios: ${s.baths}\nObjektas: ${s.objectType}\nSienos: ${s.walls}\nSkydas: ${s.board}\nLAN/TV: ${s.lan}\nApsauga: ${s.bundle}\nVirtuvė (daug technikos): ${s.kitchen ? "Taip" : "Ne"}\n` +
+        `Medžiagos: ${s.includeMaterials ? "Įtrauktos" : "Ne"}\nMedžiagų lygis: ${s.includeMaterials ? s.materialsLevel : "-"}\n` +
+        `PVM: ${s.showVat ? "Su PVM" : "Be PVM"}\n\n` +
+        `Preliminari suma: ${$("totalPrice").textContent}\n` +
+        `Darbai: ${$("workPrice").textContent}\nMedžiagos: ${$("materialsPrice").textContent}\n\n` +
+        `Kontaktai:\nVardas: \nTelefonas: \nAdresas/miestas: \nKomentaras: \n`
+      );
+
+      // Pakeisk į savo el.paštą (arba palik tuščią – tada atsidarys pasirinkimas)
+      const to = ""; // pvz. "vyraisuitampa@gmail.com"
+      $("quoteBtn").href = `mailto:${to}?subject=${subject}&body=${body}`;
+
     } catch (err) {
       showDebug("❌ JS klaida:\n" + (err?.stack || err?.message || String(err)));
       console.error(err);
     }
   }
 
+  // Modal logika
+  function initModals() {
+    const openBtns = document.querySelectorAll("[data-open]");
+    const modals = document.querySelectorAll(".modal");
+
+    const open = (id) => {
+      const m = $(id);
+      if (!m) return;
+      m.classList.add("open");
+      m.setAttribute("aria-hidden", "false");
+    };
+    const close = (modalEl) => {
+      modalEl.classList.remove("open");
+      modalEl.setAttribute("aria-hidden", "true");
+    };
+
+    openBtns.forEach(btn => {
+      btn.addEventListener("click", () => open(btn.getAttribute("data-open")));
+    });
+
+    modals.forEach(m => {
+      m.addEventListener("click", (e) => {
+        if (e.target === m) close(m);
+      });
+      m.querySelectorAll("[data-close]").forEach(x => {
+        x.addEventListener("click", () => close(m));
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") modals.forEach(m => close(m));
+    });
+  }
+
   function init() {
-    const y = $("year");
-    if (y) y.textContent = new Date().getFullYear();
+    $("year").textContent = new Date().getFullYear();
 
     const form = $("calcForm");
     if (!form) {
@@ -142,17 +183,14 @@
       return;
     }
 
-    // Stabiliausia: klausom pačios formos
+    // Stabiliausia: klausom formos
     form.addEventListener("input", calc, true);
     form.addEventListener("change", calc, true);
-
-    // Papildomas saugiklis (kai kurie telefonai keistai su select/checkbox)
     form.addEventListener("click", calc, true);
 
-    // Pirmas paskaičiavimas
+    initModals();
     calc();
   }
 
   window.addEventListener("DOMContentLoaded", init);
 })();
-
