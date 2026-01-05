@@ -63,9 +63,11 @@
   }
 
   function compute() {
-    // ✅ TIK minimalūs elementai Simple režime
-    const required = ["area", "rooms", "baths", "includeMaterials", "totalPrice", "workPrice", "materialsPrice", "includedText"];
-    const missing = required.filter(id => !$(id));
+    const required = [
+      "area", "rooms", "baths", "includeMaterials",
+      "totalPrice", "workPrice", "materialsPrice", "includedText"
+    ];
+    const missing = required.filter((id) => !$(id));
     if (missing.length) {
       debug("Trūksta elementų su ID:\n- " + missing.join("\n- "));
       return null;
@@ -75,14 +77,12 @@
     const rooms = clamp(getNum("rooms", 3), 1, 30);
     const baths = clamp(getNum("baths", 1), 0, 20);
 
-    // sutvarko įvestis, kad neliktų nesąmonių
+    // sutvarko įvestis
     $("area").value = String(Math.round(area));
     $("rooms").value = String(Math.round(rooms));
     $("baths").value = String(Math.round(baths));
 
     const includeMaterials = getBool("includeMaterials", true);
-
-    // ✅ showVat ir vatHint – optional (jei nėra, default)
     const showVat = getBool("showVat", false);
     const addSafe = getBool("addSafe", false);
 
@@ -114,7 +114,6 @@
     $("materialsPrice").textContent = euro(r.matFinal);
     $("totalPrice").textContent = euro(r.totalFinal);
 
-    // ✅ vatHint tik jei elementas egzistuoja
     const vatHint = $("vatHint");
     if (vatHint) vatHint.textContent = r.showVat ? "Rodoma su PVM" : "Rodoma be PVM";
 
@@ -126,10 +125,10 @@
 
     $("includedText").textContent = included;
 
-    // WhatsApp (jei mygtukas yra)
+    // WhatsApp
     const waBtn = $("whatsBtn");
     if (waBtn) {
-      const phone = "3706XXXXXXX"; // pakeisk
+      const phone = "3706XXXXXXX"; // pakeisk į tikrą
       const msg =
         `Sveiki, noriu pasiūlymo elektros darbams.\n\n` +
         `Plotas: ${r.area} m²\nKambariai: ${r.rooms}\nVonios: ${r.baths}\n` +
@@ -147,16 +146,53 @@
   const recalc = debounce(() => render(compute()), 80);
 
   function init() {
+    // Metai footer
     const year = $("year");
     if (year) year.textContent = String(new Date().getFullYear());
 
+    // Perskaičiavimas
     const form = $("calcForm");
     if (form) {
       form.addEventListener("input", recalc, true);
       form.addEventListener("change", recalc, true);
-      form.addEventListener("click", recalc, true);
+      // click NEBŪTINAS – paliekam švariau, kad netrukdytų modalui/details
+      // form.addEventListener("click", recalc, true);
     }
 
+    // ===== Modal (Pagalba) – atidaro/uždaro 100% =====
+    const helpBtn = $("helpBtn");
+    const helpModal = $("helpModal");
+    const helpX = $("helpX");
+
+    function openHelp() {
+      if (!helpModal) return;
+      helpModal.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeHelp() {
+      if (!helpModal) return;
+      helpModal.hidden = true;
+      document.body.style.overflow = "";
+    }
+
+    if (helpBtn) helpBtn.addEventListener("click", openHelp);
+    if (helpX) helpX.addEventListener("click", closeHelp);
+
+    // Uždarymas paspaudus už kortelės ribų (įskaitant backdrop)
+    if (helpModal) {
+      helpModal.addEventListener("click", (e) => {
+        const card = helpModal.querySelector(".modal-card");
+        if (card && !card.contains(e.target)) closeHelp();
+      });
+    }
+
+    // ESC uždaro
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeHelp();
+    });
+
+    // Pirmas render
     recalc();
   }
 
