@@ -6,7 +6,7 @@
   <title>VYRAI SU ĮTAMPA – Elektros sprendimai</title>
   <meta name="description" content="Elektros sprendimai ir apsauga. Preliminari kaina per 1 minutę." />
   <meta name="theme-color" content="#0b1220" />
-  <link rel="stylesheet" href="styles.css?v=7">
+  <link rel="stylesheet" href="styles.css?v=999">
 </head>
 
 <body>
@@ -19,8 +19,10 @@
         </div>
 
         <div class="top-actions">
+          <!-- PAKEISK NUMERĮ -->
           <a class="chip" href="tel:+3706XXXXXXX">Skambinti</a>
-          <a class="chip" target="_blank" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
+          <!-- PAKEISK NUMERĮ (be +, be tarpų) -->
+          <a class="chip" target="_blank" rel="noopener" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
         </div>
       </div>
 
@@ -49,30 +51,30 @@
         <form id="calcForm" class="calc" autocomplete="off">
           <div class="field">
             <label for="area">Plotas (m²)</label>
-            <input id="area" type="number" inputmode="numeric" min="10" step="1" value="60" />
+            <input id="area" name="area" type="number" inputmode="numeric" min="10" step="1" value="60" />
           </div>
 
           <div class="field">
             <label for="rooms">Kambariai</label>
-            <input id="rooms" type="number" inputmode="numeric" min="1" step="1" value="3" />
+            <input id="rooms" name="rooms" type="number" inputmode="numeric" min="1" step="1" value="3" />
           </div>
 
           <div class="field">
             <label for="baths">Vonios</label>
-            <input id="baths" type="number" inputmode="numeric" min="0" step="1" value="1" />
+            <input id="baths" name="baths" type="number" inputmode="numeric" min="0" step="1" value="1" />
           </div>
 
           <div class="field wide">
             <label>Įtraukti medžiagas</label>
             <div class="row">
               <label class="toggle">
-                <input id="includeMaterials" type="checkbox" checked />
+                <input id="includeMaterials" name="includeMaterials" type="checkbox" checked />
                 <span class="track"><span class="thumb"></span></span>
                 <span class="toggle-text">Taip</span>
               </label>
 
               <label class="toggle secondary">
-                <input id="showVat" type="checkbox" />
+                <input id="showVat" name="showVat" type="checkbox" />
                 <span class="track"><span class="thumb"></span></span>
                 <span class="toggle-text">Rodyti su PVM</span>
               </label>
@@ -93,7 +95,7 @@
               <div class="details-body">
                 <div class="row">
                   <label class="toggle">
-                    <input id="addSafe" type="checkbox" />
+                    <input id="addSafe" name="addSafe" type="checkbox" />
                     <span class="track"><span class="thumb"></span></span>
                     <span class="toggle-text">Pridėti SAFE</span>
                   </label>
@@ -133,7 +135,8 @@
           </div>
 
           <div class="cta">
-            <a class="btn primary" id="whatsBtn" target="_blank" href="#">Rašyti WhatsApp</a>
+            <a class="btn primary" id="whatsBtn" target="_blank" rel="noopener" href="#">Rašyti WhatsApp</a>
+            <!-- PAKEISK NUMERĮ -->
             <a class="btn ghost" id="callBtn" href="tel:+3706XXXXXXX">Skambinti</a>
           </div>
 
@@ -146,7 +149,8 @@
 
     <!-- MODAL -->
     <div class="modal" id="helpModal" hidden>
-      <div class="modal-backdrop" id="helpClose"></div>
+      <div class="modal-backdrop" id="helpClose" aria-hidden="true"></div>
+
       <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
         <div class="modal-head">
           <h3 id="helpTitle">Kaip skaičiuojame?</h3>
@@ -169,6 +173,6 @@
     </footer>
   </main>
 
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=999"></script>
 </body>
 </html>
