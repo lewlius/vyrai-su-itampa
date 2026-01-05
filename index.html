@@ -6,319 +6,377 @@
   <title>VYRAI SU ĮTAMPA – Elektros sprendimai</title>
   <meta name="description" content="Elektros instaliacija, skydai ir apsauga Vilniuje. Preliminari kaina per 2 minutes." />
   <meta name="theme-color" content="#0b1220" />
-  <style>
-    :root{
-      --bg:#0b1220;
-      --muted:#a8b0c2;
-      --text:#eef2ff;
-      --line:rgba(255,255,255,.10);
-      --accent:#facc15;
-      --shadow: 0 18px 60px rgba(0,0,0,.35);
-      --radius: 16px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
-      background: radial-gradient(1200px 600px at 50% 0%, #101e3a 0%, var(--bg) 55%, #070b14 100%);
-      color:var(--text);
-    }
-    .container{max-width:1120px;margin:0 auto;padding:0 18px}
-    a{color:inherit;text-decoration:none}
-    .hero{padding:78px 0 34px;text-align:center}
-    .brand{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:8px 14px;border:1px solid var(--line);
-      border-radius:999px;background:rgba(2,6,23,.35);
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-      font-weight:950; letter-spacing:.4px;
-    }
-    .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
-    h1{margin:18px 0 8px;font-size:48px;line-height:1.05}
-    .subtitle{margin:0 auto;max-width:860px;color:var(--muted);font-size:18px;line-height:1.55}
-    .cta{margin-top:22px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:14px 18px;border-radius:12px;border:1px solid var(--line);
-      font-weight:950;min-width:180px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-      transition:.15s transform ease, .15s opacity ease;
-    }
-    .btn:hover{transform:translateY(-1px);opacity:.98}
-    .btn.primary{background:var(--accent);color:#0a0f1c;border-color:rgba(0,0,0,.15)}
-    .btn.ghost{background:rgba(2,6,23,.35)}
-    .trust{margin-top:18px;color:var(--muted);font-size:14px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-    .trust b{color:var(--text)}
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin: 24px 0 44px}
-    @media (max-width: 980px){ .grid{grid-template-columns:1fr} h1{font-size:38px} }
-    .card{
-      background: linear-gradient(180deg, rgba(2,6,23,.65) 0%, rgba(2,6,23,.35) 100%);
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      padding:18px;
-      box-shadow: var(--shadow);
-    }
-    .card h2{margin:0 0 10px;font-size:20px}
-    .muted{color:var(--muted)}
-    .calc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    @media (max-width:720px){ .calc{grid-template-columns:1fr} }
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input,select{
-      width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);
-      background: rgba(15,23,42,.65); color:var(--text); outline:none;
-    }
-    input:focus,select:focus{border-color: rgba(250,204,21,.55); box-shadow: 0 0 0 4px rgba(250,204,21,.12);}
-    .row2{grid-column:1/-1}
-    .switches{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
-    .chip{
-      display:inline-flex;align-items:center;gap:10px;
-      padding:10px 12px;border:1px solid var(--line);
-      border-radius:999px;background: rgba(2,6,23,.35);
-      user-select:none;
-    }
-    .chip input{width:auto;margin:0}
-    .result{
-      display:flex;flex-direction:column;gap:10px;padding:18px;border-radius: var(--radius);
-      background: radial-gradient(800px 260px at 20% 0%, rgba(250,204,21,.20) 0%, rgba(250,204,21,.05) 40%, rgba(0,0,0,0) 70%),
-                  rgba(2,6,23,.45);
-      border: 1px solid rgba(250,204,21,.22);
-    }
-    .pill{
-      display:inline-flex;gap:8px;font-size:12px;padding:6px 10px;border-radius:999px;
-      background: rgba(34,197,94,.12); border:1px solid rgba(34,197,94,.25); color:#bff7d0; font-weight:950; width:max-content
-    }
-    .price{font-size:40px;font-weight:980;letter-spacing:.2px}
-    .hint{font-size:12px;color:var(--muted);line-height:1.4}
-    .breakdown{margin-top:4px;display:grid;grid-template-columns:1fr 1fr;gap:10px;color:var(--muted);font-size:13px}
-    .breakdown div{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background: rgba(2,6,23,.30)}
-    .note{margin-top:10px;color:var(--muted);font-size:12px;line-height:1.45}
-    .cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    @media (max-width:980px){ .cards3{grid-template-columns:1fr} }
-    .mini{background: rgba(2,6,23,.35); border:1px solid var(--line); border-radius: var(--radius); padding:16px}
-    .mini h3{margin:0 0 8px;font-size:16px}
-    ul{margin:10px 0 0 18px;color:var(--muted)}
-    .footer{margin-top:46px;padding:26px 0;border-top:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:13px;text-align:center}
-    .inline-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:10px}
-    .badge{
-      display:inline-flex;align-items:center;gap:8px;
-      font-size:12px;font-weight:900;
-      padding:6px 10px;border-radius:999px;
-      background:rgba(250,204,21,.10);
-      border:1px solid rgba(250,204,21,.25);
-      color:#ffe89a;
-      width:max-content;
-      margin-top:6px;
-    }
-    /* debug – pasirodo tik jei JS randa problemą */
-    #debugBox{
-      display:none;
-      margin-top:12px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(239,68,68,.35);
-      background: rgba(239,68,68,.10);
-      color:#fecaca;
-      font-size:12px;
-      line-height:1.45;
-      white-space:pre-wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 
 <body>
-  <div class="hero">
+  <header class="hero">
     <div class="container">
       <div class="brand"><span class="dot"></span> VYRAI SU ĮTAMPA</div>
-      <h1>Elektros sprendimai</h1>
+
+      <h1>Elektros sprendimai ir apsauga</h1>
       <p class="subtitle">
-        Kokybiška elektros instaliacija ir apsauga. Aiški komunikacija, tvarkinga darbų eiga,
-        preliminari kaina per <b>2 minutes</b>.
+        Kokybiška instaliacija, tvarkingi skydai, aiški komunikacija. Pasiskaičiuok kainą per <b>2 minutes</b>.
       </p>
 
       <div class="cta">
         <a class="btn primary" href="#skaiciuokle">Skaičiuoti kainą</a>
         <a class="btn ghost" href="tel:+3706XXXXXXX">Skambinti</a>
+        <a class="btn ghost" target="_blank" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
       </div>
 
       <div class="trust">
         <span>⭐ <b>5.0</b> įvertinimas</span>
         <span>📍 <b>Vilnius</b> +30 km</span>
-        <span>🛡️ SAFE / PRO SAFE apsauga</span>
+        <span>🛡️ SAFE rekomenduojame</span>
       </div>
     </div>
-  </div>
+  </header>
 
-  <div class="container">
-    <div class="grid">
-      <!-- SKAIČIUOKLĖ -->
-      <div class="card" id="skaiciuokle">
-        <h2>Skaičiuoklė</h2>
-        <div class="muted">Įvesk duomenis – kaina perskaičiuojama automatiškai.</div>
+  <main class="container">
+    <section class="grid" id="skaiciuokle">
+      <!-- LEFT -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h2>Skaičiuoklė</h2>
+            <div class="muted">Pakeisk parametrus – suma perskaičiuojama automatiškai.</div>
+          </div>
+          <button class="icon-btn" type="button" data-open="helpModal" aria-label="Pagalba">?</button>
+        </div>
 
-        <form id="calcForm">
-          <div class="calc">
-            <div>
-              <label>Plotas (m²)</label>
-              <input id="area" type="number" min="10" step="1" value="60" />
+        <form id="calcForm" class="calc">
+          <div class="field">
+            <label>Plotas (m²)</label>
+            <input id="area" type="number" min="10" step="1" value="60" />
+          </div>
+
+          <div class="field">
+            <label>Kambarių skaičius</label>
+            <input id="rooms" type="number" min="1" step="1" value="3" />
+          </div>
+
+          <div class="field">
+            <label>Vonios (vnt)</label>
+            <input id="baths" type="number" min="0" step="1" value="1" />
+          </div>
+
+          <div class="field">
+            <label>Objektas</label>
+            <select id="objectType">
+              <option value="new" selected>Nauja statyba</option>
+              <option value="reno">Renovacija</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Sienų tipas</label>
+            <select id="walls">
+              <option value="gipsas" selected>Gipsas</option>
+              <option value="blokeliai">Blokeliai</option>
+              <option value="betonas">Betonas</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label class="label-row">
+              Skydas
+              <button class="link" type="button" data-open="boardModal">Kas tai?</button>
+            </label>
+            <select id="board">
+              <option value="paprastas" selected>Paprastas</option>
+              <option value="vidutinis">Vidutinis</option>
+              <option value="pro">Pro</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>LAN/TV taškai (vnt)</label>
+            <input id="lan" type="number" min="0" step="1" value="0" />
+          </div>
+
+          <div class="field">
+            <label class="label-row">
+              Apsaugos paketas
+              <button class="link" type="button" data-open="safeModal">Kas tai?</button>
+            </label>
+            <select id="bundle">
+              <option value="none">Nėra</option>
+              <option value="safe" selected>SAFE (rekomenduojama)</option>
+              <option value="pros">PRO SAFE</option>
+            </select>
+          </div>
+
+          <div class="field field-wide">
+            <div class="switches">
+              <label class="chip">
+                <input id="kitchen" type="checkbox" checked />
+                Virtuvė „daug technikos“
+              </label>
+
+              <label class="chip">
+                <input id="includeMaterials" type="checkbox" checked />
+                Įtraukti medžiagas
+              </label>
+
+              <label class="chip">
+                <input id="showVat" type="checkbox" />
+                Rodyti su PVM
+              </label>
+            </div>
+          </div>
+
+          <div class="field field-wide" id="materialsLevelWrap">
+            <label class="label-row">
+              Medžiagų lygis
+              <button class="link" type="button" data-open="materialsModal">Kuo skiriasi?</button>
+            </label>
+            <select id="materialsLevel">
+              <option value="basic">Basic</option>
+              <option value="standard" selected>Standard</option>
+              <option value="premium">Premium</option>
+            </select>
+
+            <div class="note">
+              Pastaba: kaina preliminari. Galutinė sąmata patikslinama po plano/objekto apžiūros.
             </div>
 
-            <div>
-              <label>Kambarių skaičius</label>
-              <input id="rooms" type="number" min="1" step="1" value="3" />
-            </div>
-
-            <div>
-              <label>Vonios (vnt)</label>
-              <input id="baths" type="number" min="0" step="1" value="1" />
-            </div>
-
-            <div>
-              <label>Objektas</label>
-              <select id="objectType">
-                <option value="new" selected>Nauja statyba</option>
-                <option value="reno">Renovacija</option>
-              </select>
-            </div>
-
-            <div>
-              <label>Sienų tipas</label>
-              <select id="walls">
-                <option value="gipsas" selected>Gipsas</option>
-                <option value="blokeliai">Blokeliai</option>
-                <option value="betonas">Betonas</option>
-              </select>
-            </div>
-
-            <div>
-              <label>Skydas</label>
-              <select id="board">
-                <option value="paprastas" selected>Paprastas</option>
-                <option value="vidutinis">Vidutinis</option>
-                <option value="pro">Pro</option>
-              </select>
-            </div>
-
-            <div>
-              <label>LAN/TV taškai (vnt)</label>
-              <input id="lan" type="number" min="0" step="1" value="0" />
-            </div>
-
-            <div>
-              <label>Apsaugos paketas</label>
-              <select id="bundle">
-                <option value="none">Nėra</option>
-                <option value="safe" selected>SAFE (rekomenduojama)</option>
-                <option value="pros">PRO SAFE</option>
-              </select>
-            </div>
-
-            <div class="row2">
-              <div class="switches">
-                <label class="chip">
-                  <input id="kitchen" type="checkbox" checked />
-                  Virtuvė „daug technikos“
-                </label>
-
-                <label class="chip">
-                  <input id="includeMaterials" type="checkbox" checked />
-                  Įtraukti medžiagas
-                </label>
-
-                <label class="chip">
-                  <input id="showVat" type="checkbox" />
-                  Rodyti kainą su PVM
-                </label>
-              </div>
-
-              <div id="materialsLevelWrap" style="margin-top:12px; max-width:320px;">
-                <label>Medžiagų lygis</label>
-                <select id="materialsLevel">
-                  <option value="basic">Basic</option>
-                  <option value="standard" selected>Standard</option>
-                  <option value="premium">Premium</option>
-                </select>
-              </div>
-
-              <div class="note">
-                Pastaba: kaina preliminari. Galutinė sąmata – po plano/objekto peržiūros.
-              </div>
-
-              <div id="debugBox"></div>
-            </div>
+            <div id="debugBox" class="debug"></div>
           </div>
         </form>
       </div>
 
-      <!-- REZULTATAS -->
-      <div class="card">
+      <!-- RIGHT -->
+      <aside class="card">
         <h2>Rezultatas</h2>
+
         <div class="result">
           <span class="pill">Preliminari kaina (viena suma)</span>
           <div class="price" id="totalPrice">— €</div>
           <div class="hint" id="vatHint">—</div>
 
           <div class="breakdown">
-            <div><b style="color:var(--text)">Darbai</b><br/><span id="workPrice">— €</span></div>
-            <div><b style="color:var(--text)">Medžiagos</b><br/><span id="materialsPrice">— €</span></div>
-            <div style="grid-column:1/-1">
-              <b style="color:var(--text)">Kas skaičiuota</b><br/>
+            <div>
+              <b>Darbai</b><br/>
+              <span id="workPrice">— €</span>
+            </div>
+            <div>
+              <b>Medžiagos</b><br/>
+              <span id="materialsPrice">— €</span>
+            </div>
+            <div class="wide">
+              <b>Kas įskaičiuota</b><br/>
               <span class="muted" id="includedText">—</span>
             </div>
           </div>
 
-          <span class="badge">🛡️ Patarimas: SAFE dažniausiai apsimoka</span>
+          <div class="badge">🛡️ SAFE dažniausiai apsimoka</div>
           <div class="hint">
-            SAFE/PRO SAFE padeda apsaugoti buitinę techniką ir elektroniką nuo įtampos šuolių.
+            SAFE / PRO SAFE padeda apsaugoti techniką nuo įtampos šuolių.
           </div>
         </div>
 
-        <div class="mini" style="margin-top:14px">
-          <h3>Greitas kontaktas</h3>
-          <div class="muted"><b style="color:var(--text)">📞</b> +3706XXXXXXX • <b style="color:var(--text)">📍</b> Vilnius +30 km</div>
-          <div class="inline-links">
-            <a class="btn primary" style="min-width:160px; padding:12px 14px" href="tel:+3706XXXXXXX">Skambinti</a>
-            <a class="btn ghost" style="min-width:160px; padding:12px 14px" target="_blank" href="https://wa.me/3706XXXXXXX">WhatsApp</a>
+        <div class="mini">
+          <h3>Gauti pasiūlymą</h3>
+          <p class="muted">Vienu paspaudimu – suformuosime žinutę su tavo pasirinkimais.</p>
+
+          <div class="cta small">
+            <a class="btn primary" id="quoteBtn" href="#">Gauti pasiūlymą</a>
+            <a class="btn ghost" href="tel:+3706XXXXXXX">Skambinti</a>
+          </div>
+
+          <div class="note">
+            Jei nori – rytoj galim prijungti “tikrą” formą į Google Forms arba EmailJS.
           </div>
         </div>
-      </div>
-    </div>
+      </aside>
+    </section>
 
-    <div class="cards3">
+    <section class="cards3">
       <div class="mini">
         <h3>Kodėl mes?</h3>
         <ul>
-          <li>Tvarkinga instaliacija ir saugūs sprendimai</li>
-          <li>Aiški komunikacija: ką darom ir kodėl</li>
-          <li>Tvarka objekte: mažiau streso klientui</li>
+          <li><b>Kokybė</b>: tvarkingi sprendimai, aiškus rezultatas</li>
+          <li><b>Komunikacija</b>: paaiškinam ką darom ir kodėl</li>
+          <li><b>Tvarka</b>: švari darbo vieta ir terminai</li>
         </ul>
       </div>
 
       <div class="mini">
         <h3>Paslaugos</h3>
         <ul>
-          <li>Nauja instaliacija / renovacija</li>
-          <li>Skydų surinkimas ir modernizacija</li>
-          <li>Įtampos relės, viršįtampių apsauga</li>
-          <li>Smart sprendimai (pagal poreikį)</li>
+          <li>Instaliacija (nauja / renovacija)</li>
+          <li>Skydai, automatai, RCD/RCBO</li>
+          <li>Įtampos relės, SPD apsauga</li>
+          <li>LAN/TV taškai, papildomi sprendimai</li>
         </ul>
       </div>
 
       <div class="mini">
         <h3>Atsiliepimai</h3>
         <ul>
-          <li>„Gera komunikacija, kokybė.“</li>
-          <li>„Atvyko greitai, darbas tvarkingas.“</li>
-          <li>„Davė patarimų, rekomenduoju.“</li>
+          <li>„Aiškiai iškomunikavo, tvarkingai.“</li>
+          <li>„Darbas greitas ir kokybiškas.“</li>
+          <li>„Rekomenduoju – saugiai padarė.“</li>
         </ul>
+        <div class="note">Įkelkit 3–5 realius iš paslaugos.lt – pakels konversiją.</div>
       </div>
-    </div>
+    </section>
 
-    <div class="footer">
-      © <span id="year"></span> VYRAI SU ĮTAMPA – Elektros sprendimai • Kaina preliminari (galutinė po objekto peržiūros)
+    <footer class="footer">
+      © <span id="year"></span> VYRAI SU ĮTAMPA – Elektros sprendimai • Kaina preliminari (patikslinama po apžiūros)
+    </footer>
+  </main>
+
+  <!-- MODALAI -->
+  <div class="modal" id="helpModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Kaip veikia skaičiuoklė?</h3>
+        <button class="icon-btn" type="button" data-close aria-label="Uždaryti">✕</button>
+      </div>
+      <p class="muted">
+        Skaičiuoklė duoda preliminarią sumą pagal tipinius rinkos parametrus ir pasirinktus sprendimus.
+        Galutinė sąmata patikslinama po plano/objekto apžiūros.
+      </p>
+      <ul>
+        <li><b>Darbai</b> – instaliacijos įrengimas, skydas, papildomi taškai, apsaugos paketas.</li>
+        <li><b>Medžiagos</b> – kabeliai, dėžutės, tvirtinimas, bazinė automatikos dalis (pagal lygį).</li>
+        <li><b>Neįeina</b> – šviestuvai, rozetės/jungikliai (dizainas), LED profiliai/valdikliai, specifinė smart įranga.</li>
+      </ul>
+      <div class="modal-actions">
+        <button class="btn primary" type="button" data-close>Aišku</button>
+      </div>
     </div>
   </div>
 
-  <!-- JS atskirai -->
-  <script src="app.js?v=1"></script>
+  <div class="modal" id="materialsModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Medžiagų lygiai: Basic / Standard / Premium</h3>
+        <button class="icon-btn" type="button" data-close aria-label="Uždaryti">✕</button>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <b>Basic</b>
+          <div class="muted">Ekonomiškas, kai svarbu kaina, o sprendimai paprasti.</div>
+          <ul>
+            <li>Standartiniai kabeliai ir smulkmenos</li>
+            <li>Paprastesnė skydo komplektacija</li>
+            <li>Rekomenduojama: nuomojamam būstui / minimalizmui</li>
+          </ul>
+        </div>
+
+        <div class="panel highlight">
+          <b>Standard (rekomenduojama)</b>
+          <div class="muted">Geriausias kainos/kokybės balansas daugumai butų/namų.</div>
+          <ul>
+            <li>Patikimesnė komplektacija</li>
+            <li>Tvarkingas skydas, geresnė apsauga</li>
+            <li>Rekomenduojama: 90% projektų</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <b>Premium</b>
+          <div class="muted">Kai norisi max patikimumo, tvarkos ir ilgaamžiškumo.</div>
+          <ul>
+            <li>Geresni komponentai</li>
+            <li>Skydas “su rezervu” ateičiai</li>
+            <li>Rekomenduojama: naujai statybai, daugiau technikos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn primary" type="button" data-close>Supratau</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="safeModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>SAFE / PRO SAFE – ką renkuosi?</h3>
+        <button class="icon-btn" type="button" data-close aria-label="Uždaryti">✕</button>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <b>Nėra</b>
+          <div class="muted">Jei objekte minimali technika ir biudžetas spaudžia.</div>
+        </div>
+
+        <div class="panel highlight">
+          <b>SAFE (rekomenduojama)</b>
+          <div class="muted">Saugumo “must-have” daugumai būstų.</div>
+          <ul>
+            <li>Viršįtampių apsauga (SPD) tipiniam būstui</li>
+            <li>Įtampos kontrolės sprendimas (pagal situaciją)</li>
+            <li>Mažiau rizikos buitiniai technikai</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <b>PRO SAFE</b>
+          <div class="muted">Kai technikos daug ir nori max saugumo.</div>
+          <ul>
+            <li>Stipresnė/platesnė apsauga</li>
+            <li>Geresnis sprendimas namams su daug elektronikos</li>
+            <li>Rekomenduojama: naujai statybai / šilumos siurbliai / EV planai</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn primary" type="button" data-close>Aišku</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="boardModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Skydas: Paprastas / Vidutinis / Pro</h3>
+        <button class="icon-btn" type="button" data-close aria-label="Uždaryti">✕</button>
+      </div>
+
+      <div class="stack">
+        <div class="panel">
+          <b>Paprastas</b>
+          <div class="muted">Bazinis sprendimas mažesniam objektui.</div>
+          <ul>
+            <li>Minimalus automatų/apsaugų kiekis</li>
+            <li>Mažiau rezervų ateičiai</li>
+          </ul>
+        </div>
+
+        <div class="panel highlight">
+          <b>Vidutinis (rekomenduojama)</b>
+          <div class="muted">Tvarkingas, aiškus skydas su protingu rezervu.</div>
+          <ul>
+            <li>Patogiau eksploatuoti</li>
+            <li>Logiškas grupavimas</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <b>Pro</b>
+          <div class="muted">Kai norisi max tvarkos, logikos ir plėtros.</div>
+          <ul>
+            <li>Daugiau grupių / geresnis išskaidymas</li>
+            <li>Rezervai plėtrai, daugiau sprendimų</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn primary" type="button" data-close>Supratau</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=2"></script>
 </body>
 </html>
