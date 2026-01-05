@@ -10,6 +10,8 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
+html{scroll-behavior:smooth;}
+
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
@@ -36,6 +38,7 @@ a{color:inherit;text-decoration:none}
   background:rgba(2,6,23,.30);
   font-weight:900;font-size:13px;
 }
+
 h1{margin:22px 0 8px;font-size:48px;line-height:1.05}
 .subtitle{margin:0;color:var(--muted);font-size:18px;line-height:1.55}
 .trust{
@@ -199,11 +202,24 @@ input:focus{border-color: rgba(250,204,21,.55); box-shadow: 0 0 0 4px rgba(250,2
   white-space:pre-wrap;
 }
 
-/* Modal */
-.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:50}
-.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+/* MODAL + FIX (labai svarbu) */
+.modal{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:0;
+}
 .modal-card{
   position:relative;
+  z-index:1;
   width:min(720px, calc(100% - 26px));
   border-radius:18px;
   border:1px solid rgba(255,255,255,.12);
@@ -223,3 +239,22 @@ input:focus{border-color: rgba(250,204,21,.55); box-shadow: 0 0 0 4px rgba(250,2
 .modal-body{color:var(--muted);font-size:14px;line-height:1.55}
 .modal-body b{color:var(--text)}
 .modal-body ul{margin:10px 0 0 18px}
+
+/* Paslaugos: 3 kortelės (jei naudoji paslaugos.html) */
+.cards3{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:12px;
+}
+@media (max-width: 980px){
+  .cards3{grid-template-columns:1fr}
+}
+.mini{
+  background: linear-gradient(180deg, rgba(2,6,23,.55) 0%, rgba(2,6,23,.25) 100%);
+  border:1px solid var(--line);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow);
+}
+.mini h3{margin:0 0 8px;font-size:18px}
